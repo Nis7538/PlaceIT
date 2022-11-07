@@ -2,6 +2,8 @@ const Company = require('../models/Company');
 const asyncWrapper = require('../middleware/async');
 const createCustomAPIError = require('../errors/error-handler');
 require('dotenv').config();
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 //@description Get all companies
 //@route GET /api/v1/company/getAllCompanies
@@ -197,14 +199,36 @@ const forgotPassword = asyncWrapper(async (req, res, next) => {
     // Get reset token
     const resetToken = company.getResetPasswordToken();
 
-    await company.save({ validateBeforeSave: false });
+    await company
+        .save({ validateBeforeSave: false })
+        .then(company => {
+            let link =
+                'http://' +
+                req.headers.host +
+                '/api/v1/company/auth/reset/' +
+                resetToken;
+            const mailOptions = {
+                to: company.companyEmail,
+                from: process.env.FROM_EMAIL,
+                subject: 'Password change request',
+                text: `Hi ${company.companyName} \n 
+        Please click on the following link ${link} to reset your password. \n\n 
+        If you did not request this, please ignore this email and your password will remain unchanged.\n`,
+            };
 
-    console.log(resetToken);
+            sgMail.send(mailOptions, (error, result) => {
+                if (error)
+                    return res.status(500).json({ message: error.message });
 
-    res.status(200).json({
-        success: true,
-        data: company,
-    });
+                res.status(200).json({
+                    message:
+                        'A reset email has been sent to ' +
+                        company.companyEmail +
+                        '.',
+                });
+            });
+        })
+        .catch(err => res.status(500).json({ message: err.message }));
 });
 
 // Get token from model, create a cookie and send response

@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 
 const company = require('./routes/company');
 const student = require('./routes/student');
+const application = require('./routes/application');
 
 const colors = require('colors');
 require('dotenv').config();
@@ -19,6 +20,7 @@ app.use(cookieParser());
 // Routes
 app.use('/api/v1/company', company);
 app.use('/api/v1/student', student);
+app.use('/api/v1/application', application);
 
 app.use(notFound);
 

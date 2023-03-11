@@ -36,6 +36,12 @@ const StudentSchema = new mongoose.Schema({
             'Please fill a valid email address',
         ],
     },
+    studentGender: {
+        type: String,
+        enum: ['Male', 'Female', 'Others'],
+        required: [true, 'Student Gender is required'],
+        trim: true,
+    },
     studentContact: {
         type: String,
         required: [true, 'Student Contact is required'],

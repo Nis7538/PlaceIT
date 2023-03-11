@@ -1,4 +1,4 @@
-const { createCustomError } = require('../errors/error-handler');
+const createCustomAPIError = require('../errors/error-handler');
 const multer = require('multer');
 const path = require('path');
 

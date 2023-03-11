@@ -80,6 +80,7 @@ const updateDetails = asyncWrapper(async (req, res, next) => {
         studentEmail,
         studentContact,
         studentBranch,
+        studentGender,
     } = req.body;
 
     if (studentID) {
@@ -100,6 +101,10 @@ const updateDetails = asyncWrapper(async (req, res, next) => {
 
     if (studentBranch) {
         fieldsToUpdate = { ...fieldsToUpdate, studentBranch };
+    }
+
+    if (studentGender) {
+        fieldsToUpdate = { ...fieldsToUpdate, studentGender };
     }
 
     const student = await Student.findByIdAndUpdate(

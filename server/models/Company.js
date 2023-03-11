@@ -55,6 +55,17 @@ const CompanySchema = new mongoose.Schema({
         required: [true, 'Job location is required'],
         trim: true,
     },
+    jobDescription: {
+        type: String,
+        required: [true, 'Job Description is required'],
+        trim: true,
+        maxLength: [1000, 'Length can be maximum of 1000 characters'],
+    },
+    hiringProcess: {
+        type: String,
+        required: [true, 'Link to the Hiring Process is required'],
+        trim: true,
+    },
     hiringBranches: {
         type: [String],
         enum: [

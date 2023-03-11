@@ -21,7 +21,7 @@ const getAllCompanies = asyncWrapper(async (req, res) => {
 });
 
 //@description Get Single Company
-//@route GET /api/v1/company/getOneCompany
+//@route POST /api/v1/company/getOneCompany
 //@access public
 const getOneCompany = asyncWrapper(async (req, res, next) => {
     const company = await Company.findOne(req.body);

@@ -24,7 +24,6 @@ const ApplicationSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Student Contact is required'],
         trim: true,
-        unique: true,
         minLength: [10, 'Contact cannot be less than 10 digits'],
         maxLength: [10, 'Contact cannot be more than 10 digits'],
     },
@@ -32,7 +31,6 @@ const ApplicationSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Email is required'],
         trim: true,
-        unique: true,
         lowercase: true,
         match: [
             /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
@@ -64,7 +62,12 @@ const ApplicationSchema = new mongoose.Schema({
         required: [true, 'Student Branch is required'],
         trim: true,
     },
-    applicationStatus: {
+    tpoStatus: {
+        type: String,
+        enum: ['Pending', 'Accepted', 'Rejected'],
+        default: 'Pending',
+    },
+    companyStatus: {
         type: String,
         enum: ['Pending', 'Accepted', 'Rejected'],
         default: 'Pending',
